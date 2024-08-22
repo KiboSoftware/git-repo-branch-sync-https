@@ -16,7 +16,7 @@ jobs:
   kibo-sync-codecommit:
     uses: ./.github/workflows/git-repo-branch-sync.yml
     with:
-      repo-url: git-codecommit.us-east-1.amazonaws.com/v1/repos/kibo-test-sb-repo
+      repo-url: git-codecommit.us-east-1.amazonaws.com/v1/repos/kibo-test-repo
     secrets:
       GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
       GIT_PASSWORD: ${{ secrets.GIT_PASSWORD }}
