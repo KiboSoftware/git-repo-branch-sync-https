@@ -28,7 +28,7 @@ jobs:
       run: |
         declare -A BRANCH_MAP
         BRANCH_MAP=(
-          ["main"]="kibo-github-actions-main"
+          ["main"]="kibo-github-actions-main-test"
           ["github-actions-setup"]="kibo-github-actions-setup"
           ["feature-branch-1"]="feature-remote-1"
           ["feature-branch-2"]="feature-remote-2"
