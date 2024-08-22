@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - github-actions-setup
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Your Code
+        uses: actions/checkout@v3
+
+  kibo-sync-codecommit:
+    uses: ./.github/workflows/git-repo-branch-sync.yml
+    with:
+      repo-url: git-codecommit.us-east-1.amazonaws.com/v1/repos/kibo-test-sb-repo
+    secrets:
+      GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
+      GIT_PASSWORD: ${{ secrets.GIT_PASSWORD }}

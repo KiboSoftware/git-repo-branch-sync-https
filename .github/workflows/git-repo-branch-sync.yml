@@ -1,0 +1,44 @@
+name: Git Repository Branch Sync
+on:
+  workflow_call:
+    inputs:
+      repo-url:
+        required: true
+        type: string
+    secrets:
+      GIT_USERNAME:
+        required: true
+      GIT_PASSWORD:
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Configure Git with Username and Email
+      run: |
+        git config --global user.name "${{ secrets.GIT_USERNAME }}"
+        git config --global user.email "github-actions@example.com"
+
+    - name: Push to remote branches
+      run: |
+        declare -A BRANCH_MAP
+        BRANCH_MAP=(
+          ["main"]="kibo-github-actions-main"
+          ["github-actions-setup"]="kibo-github-actions-setup"
+          ["feature-branch-1"]="feature-remote-1"
+          ["feature-branch-2"]="feature-remote-2"
+        )
+
+        CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+        if [ -n "${BRANCH_MAP[$CURRENT_BRANCH]}" ]; then
+          REMOTE_BRANCH=${BRANCH_MAP[$CURRENT_BRANCH]}
+          git push --force https://${{ secrets.GIT_USERNAME }}:${{ secrets.GIT_PASSWORD }}@${{ inputs.repo-url}} $CURRENT_BRANCH:$REMOTE_BRANCH
+        else
+          echo "Branch '$CURRENT_BRANCH' not mapped, skipping push."
+        fi
